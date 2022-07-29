@@ -11,12 +11,15 @@ import {
   AlertDialogOverlay,
   useDisclosure,
 } from "@chakra-ui/react";
+import { useParams } from "react-router";
+import { useAddParticipantToRoom } from "../../../hooks/useApiCall";
 
 interface Props {
   showDialog: boolean;
+  roomId: string;
 }
 
-export const RoomParticipantInfo = ({ showDialog }: Props) => {
+export const RoomParticipantInfo = ({ showDialog, roomId }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [name, setName] = useState<string>();
 
@@ -28,8 +31,19 @@ export const RoomParticipantInfo = ({ showDialog }: Props) => {
 
   const onSubmit = useCallback(() => {
     console.log(name);
+    addParticpantToRoom()
     onClose();
   }, [name, onClose]);
+
+  const { addParticpant } = useAddParticipantToRoom();
+
+  const addParticpantToRoom = useCallback(async () => {
+    if (name) {
+      const participants = await addParticpant(roomId, name);
+    } else {
+      console.log("name is null");
+    }
+  }, [name]);
 
   const cancelRef = useRef() as React.MutableRefObject<HTMLInputElement>;
 
