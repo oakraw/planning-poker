@@ -1,23 +1,8 @@
-import * as React from "react";
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState } from "react";
 import {
-  Box,
-  Text,
   VStack,
-  Grid,
-  Button,
-  Input,
-  Container,
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogOverlay,
-  useDisclosure,
   HStack,
 } from "@chakra-ui/react";
-import { useParams } from "react-router";
 import { Participant } from "../../../models/participant.model";
 import { ParticipantVotedCard } from "../../../components/ParticipantVotedCard";
 import { Card } from "../../../components/Card";
@@ -34,6 +19,10 @@ export const RoomPokerTable = () => {
     { userId: "7", name: "g" },
     { userId: "8", name: "h" },
     { userId: "9", name: "i" },
+    { userId: "10", name: "j" },
+    { userId: "10", name: "j" },
+    { userId: "10", name: "j" },
+    { userId: "10", name: "j" },
     { userId: "10", name: "j" },
     { userId: "11", name: "k" },
     { userId: "12", name: "l" },

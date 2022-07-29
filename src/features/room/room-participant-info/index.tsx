@@ -1,13 +1,8 @@
 import * as React from "react";
 import { useState, useEffect, useRef, useCallback } from "react";
 import {
-  Box,
-  Text,
-  VStack,
-  Grid,
   Button,
   Input,
-  Container,
   AlertDialog,
   AlertDialogBody,
   AlertDialogContent,
@@ -16,7 +11,6 @@ import {
   AlertDialogOverlay,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useParams } from "react-router";
 
 interface Props {
   showDialog: boolean;
