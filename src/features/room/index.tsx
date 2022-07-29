@@ -8,17 +8,22 @@ import {
   Button,
   Input,
   Container,
+  Center,
 } from "@chakra-ui/react";
 import { useParams } from "react-router";
 import { RoomParticipantInfo } from "./room-participant-info";
+import { RoomPokerTable } from "./room-poker-table";
 
 export const Room = () => {
   const { roomId } = useParams();
   // todo read params roomId
+
   return (
     <>
-      <Container>{roomId}</Container>
-      <RoomParticipantInfo showDialog={true}/>
+      <Center h="calc(100vh)">
+        <RoomPokerTable />
+      </Center>
+      <RoomParticipantInfo showDialog={true} />
     </>
   );
 };

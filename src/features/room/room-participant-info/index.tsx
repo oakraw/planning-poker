@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import {
   Box,
   Text,
@@ -32,6 +32,11 @@ export const RoomParticipantInfo = ({ showDialog }: Props) => {
     }
   }, [onOpen, showDialog]);
 
+  const onSubmit = useCallback(() => {
+    console.log(name);
+    onClose();
+  }, [name, onClose]);
+
   const cancelRef = useRef() as React.MutableRefObject<HTMLInputElement>;
 
   return (
@@ -56,8 +61,14 @@ export const RoomParticipantInfo = ({ showDialog }: Props) => {
               />
             </AlertDialogBody>
 
-            <AlertDialogFooter>
-              <Button colorScheme="blue"  size="lg" onClick={onClose} width={{ base: '100%', }} >
+            <AlertDialogFooter mt={4}>
+              <Button
+                colorScheme="blue"
+                size="lg"
+                onClick={onSubmit}
+                disabled={!name}
+                width={{ base: "100%" }}
+              >
                 Enter room
               </Button>
             </AlertDialogFooter>
