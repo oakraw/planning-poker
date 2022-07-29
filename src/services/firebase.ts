@@ -21,11 +21,12 @@ export const createRoom = (roomId: string, roomName: string) => {
     });
 };
 
-export const addParticpantToRoom = (roomId: string, particpantName: string) => {
+export const addParticpantToRoom = (roomId: string, participantName: string, participantId: string) => {
   const firestore = getFirestore(app);
     const ref = collection(firestore, `rooms/${roomId}/participants`)
     return addDoc(ref, { 
-      particpantName,
+      participantName,
+      participantId,
       point: null
     });
 };

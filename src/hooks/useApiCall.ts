@@ -18,7 +18,8 @@ export const useAddParticipantToRoom = (): {
   addParticpant: (roomId: string, participantName: string) => Promise<string>;
   } => {
     const addParticpant = async (roomId: string, participantName: string): Promise<string> => {
-      await addParticpantToRoom(roomId, participantName).then(() => {});
+      const id = generateUUID();
+      await addParticpantToRoom(roomId, participantName, id).then(() => {});
       return participantName
     };
   
