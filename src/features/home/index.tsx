@@ -19,6 +19,7 @@ export const Home = () => {
   const { createRoom } = useCreateRoom();
 
   const oncCreateRoomClicked = useCallback(async () => {
+    console.log(roomName)
     if (roomName) {
       const roomId = await createRoom(roomName);
       console.log("roomId", roomId);
