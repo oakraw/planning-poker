@@ -45,7 +45,6 @@ export const RoomParticipantInfo = ({ showDialog, roomId }: Props) => {
   const addParticpantToRoom = useCallback(async () => {
     if (name) {
       const participants = await addParticpant(roomId, name);
-      console.log("name", participants);
     } else {
       console.log("name is null");
     }
