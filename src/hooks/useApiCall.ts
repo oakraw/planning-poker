@@ -1,4 +1,5 @@
 import { createRoom as firebaseCreateRoom } from "../services/firebase";
+import { addParticpantToRoom } from "../services/firebase";
 import { generateUUID } from "../utils/uuid";
 
 export const useCreateRoom = (): {
@@ -13,16 +14,16 @@ export const useCreateRoom = (): {
   return { createRoom };
 };
 
-// export const useAddParticipantToRoom = (): {
-//     createRoom: (roomName: string) => Promise<string>;
-//   } => {
-//     const createRoom = async (roomName: string): Promise<string> => {
-//       const id = generateUUID();
-//       await firebaseCreateRoom(id, roomName).then(() => {});
-//       return id;
-//     };
+export const useAddParticipantToRoom = (): {
+  addParticpant: (roomId: string, participantName: string) => Promise<string>;
+  } => {
+    const addParticpant = async (roomId: string, participantName: string): Promise<string> => {
+      const id = generateUUID();
+      await addParticpantToRoom(roomId, participantName, id).then(() => {});
+      return participantName
+    };
   
-//     return { createRoom };
-//   };
+    return { addParticpant };
+};
 
 export const s = () => {};

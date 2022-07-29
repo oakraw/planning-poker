@@ -20,10 +20,13 @@ export const Room = () => {
 
   return (
     <>
-      <Center h="calc(100vh)">
-        <RoomPokerTable />
-      </Center>
-      <RoomParticipantInfo showDialog={true} />
+      {roomId && 
+      <>
+        <Center h="calc(100vh)">
+          <RoomPokerTable />
+        </Center>
+        <RoomParticipantInfo showDialog={true} roomId={roomId}/> 
+      </>}
     </>
   );
 };
