@@ -13,4 +13,16 @@ export const useCreateRoom = (): {
   return { createRoom };
 };
 
+// export const useAddParticipantToRoom = (): {
+//     createRoom: (roomName: string) => Promise<string>;
+//   } => {
+//     const createRoom = async (roomName: string): Promise<string> => {
+//       const id = generateUUID();
+//       await firebaseCreateRoom(id, roomName).then(() => {});
+//       return id;
+//     };
+  
+//     return { createRoom };
+//   };
+
 export const s = () => {};

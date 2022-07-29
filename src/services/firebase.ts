@@ -9,7 +9,7 @@ import { firebaseConfig } from "../config/firebase";
 
 const app = firebase.initializeApp(firebaseConfig);
 
-export const createRoom = async (roomId: string, roomName: string) => {
+export const createRoom = (roomId: string, roomName: string) => {
   const firestore = getFirestore(app);
     const ref = doc(firestore, `rooms/${roomId}`);
     return setDoc(ref, {
@@ -18,5 +18,9 @@ export const createRoom = async (roomId: string, roomName: string) => {
       state: null,
     });
 };
+
+export const addParticpantToRoom = (roomId: string, particpantName: string) => {
+    // TODO
+}
 
 export default app;

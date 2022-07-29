@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useCallback, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Box,
   Text,
@@ -12,6 +13,8 @@ import {
 import { useCreateRoom } from "../../hooks/useApiCall";
 
 export const Home = () => {
+  const navigate = useNavigate();
+
   const [roomName, setRoomName] = useState<string>();
   const { createRoom } = useCreateRoom();
 
@@ -19,6 +22,7 @@ export const Home = () => {
     if (roomName) {
       const roomId = await createRoom(roomName);
       console.log("roomId", roomId);
+      navigate(`room/${roomId}`)
     } else {
       console.log("roomName is null");
     }
@@ -35,7 +39,7 @@ export const Home = () => {
               size="lg"
               onChange={(e) => setRoomName(e.target.value)}
             />
-            <Button colorScheme="teal" size="lg" onClick={oncCreateRoomClicked}>
+            <Button colorScheme="blue" size="lg" onClick={oncCreateRoomClicked}>
               Create room
             </Button>
           </VStack>

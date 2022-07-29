@@ -4,6 +4,7 @@ import * as ReactDOM from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { App } from "./App";
 import { Home } from "./features/home";
+import { Room } from "./features/room";
 import reportWebVitals from "./reportWebVitals";
 import * as serviceWorker from "./serviceWorker";
 import { ChakraProvider, theme } from "@chakra-ui/react";
@@ -19,7 +20,7 @@ root.render(
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/room" element={<App />} />
+          <Route path="/room/:roomId" element={<Room />} />
         </Routes>
       </BrowserRouter>
     </ChakraProvider>
