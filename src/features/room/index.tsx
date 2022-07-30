@@ -1,14 +1,11 @@
 import {
   Center,
-  Container,
-  HStack,
   Box,
   theme,
   VStack,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { Card } from "../../components/Card";
 import { useObserveRoom, useVote } from "../../hooks/useApiCall";
 import { RoomState } from "../../models/enum";
 import { RoomCardDeck } from "./room-card-deck";

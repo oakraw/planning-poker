@@ -7,6 +7,8 @@ import {
   collection,
   onSnapshot,
   updateDoc,
+  getDocs,
+  writeBatch,
 } from "firebase/firestore";
 import { firebaseConfig } from "../config/firebase";
 import { Participant } from "../models/participant.model";
@@ -51,6 +53,20 @@ export const vote = (roomId: string, participantId: string, point?: string) => {
   return updateDoc(ref, {
     point,
   });
+};
+
+export const clearPreviousSelectedPoint = async (roomId: string) => {
+  const ref = collection(firestore, `rooms/${roomId}/participants`);
+  const querySnapshot = await getDocs(ref);
+
+  const batch = writeBatch(firestore);
+
+  querySnapshot.forEach((data) => {
+    const dataRef = doc(firestore,  `rooms/${roomId}/participants/${data.id}`);
+    batch.update(dataRef, { point: null });
+  });
+
+  return batch.commit();
 };
 
 export const observeRoom = (

@@ -4,6 +4,7 @@ import { ParticipantVotedCard } from "../../../components/ParticipantVotedCard";
 import { Card } from "../../../components/Card";
 import { theme } from "@chakra-ui/react";
 import {
+  useClearVote,
   useObserveParticipants,
   useUpdateRoomInfo,
 } from "../../../hooks/useApiCall";
@@ -21,6 +22,7 @@ export const RoomPokerTable = ({ room }: Props) => {
   const [countDownTimer, setCountDownTimer] = useState<number>(0);
   const participants = useObserveParticipants(room.roomId);
   const { updateRoomInfo } = useUpdateRoomInfo();
+  const { clearVote } = useClearVote();
 
   const onUpdateRoomState = useCallback(
     async (state: RoomState) => {
@@ -80,7 +82,7 @@ export const RoomPokerTable = ({ room }: Props) => {
             />
           ))}
         </HStack>
-        <HStack spacing={8}>
+        <HStack spacing={8} width="100%">
           <VStack>
             {leftSeat.map((participant, index) => (
               <ParticipantVotedCard
@@ -130,7 +132,10 @@ export const RoomPokerTable = ({ room }: Props) => {
                 <Button
                   colorScheme="blue"
                   size="lg"
-                  onClick={() => onUpdateRoomState(RoomState.VOTING)}
+                  onClick={() => {
+                    clearVote(room.roomId);
+                    onUpdateRoomState(RoomState.VOTING);}
+                  }
                 >
                   Start voting
                 </Button>

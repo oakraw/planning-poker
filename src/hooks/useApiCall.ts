@@ -7,6 +7,7 @@ import {
   vote as firebaseVote,
   observeParticpants,
   observeRoom,
+  clearPreviousSelectedPoint,
 } from "../services/firebase";
 import { addParticpantToRoom } from "../services/firebase";
 import { generateUUID } from "../utils/uuid";
@@ -24,7 +25,7 @@ export const useCreateRoom = (): {
 };
 
 export const useAddParticipantToRoom = (): {
-    addParticipant: (roomId: string, participantName: string) => Promise<string>;
+  addParticipant: (roomId: string, participantName: string) => Promise<string>;
 } => {
   const addParticipant = async (
     roomId: string,
@@ -39,17 +40,31 @@ export const useAddParticipantToRoom = (): {
 };
 
 export const useVote = (): {
-  vote: (roomId: string, participantId: string, point?: string) => Promise<void>;
+  vote: (
+    roomId: string,
+    participantId: string,
+    point?: string
+  ) => Promise<void>;
 } => {
   const vote = async (
     roomId: string,
     participantId: string,
-    point?: string,
+    point?: string
   ): Promise<void> => {
     await firebaseVote(roomId, participantId, point);
   };
 
   return { vote };
+};
+
+export const useClearVote = (): {
+  clearVote: (roomId: string) => Promise<void>;
+} => {
+  const clearVote = async (roomId: string): Promise<void> => {
+    await clearPreviousSelectedPoint(roomId);
+  };
+
+  return { clearVote };
 };
 
 export const useUpdateRoomInfo = (): {
