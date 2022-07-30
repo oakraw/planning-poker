@@ -22,6 +22,7 @@ interface Props {
 export const RoomParticipantInfo = ({ showDialog, roomId }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [name, setName] = useState<string>();
+  const { addParticpant } = useAddParticipantToRoom();
 
   useEffect(() => {
     if (showDialog) {
@@ -29,21 +30,19 @@ export const RoomParticipantInfo = ({ showDialog, roomId }: Props) => {
     }
   }, [onOpen, showDialog]);
 
-  const onSubmit = useCallback(() => {
-    console.log(name);
-    addParticpantToRoom()
-    onClose();
-  }, [name, onClose]);
-
-  const { addParticpant } = useAddParticipantToRoom();
-
   const addParticpantToRoom = useCallback(async () => {
+    console.log("name", name);
     if (name) {
       const participants = await addParticpant(roomId, name);
     } else {
       console.log("name is null");
     }
-  }, [name]);
+  }, [addParticpant, name, roomId]);
+
+  const onSubmit = useCallback(async () => {
+    addParticpantToRoom();
+    onClose();
+  }, [addParticpantToRoom, onClose]);
 
   const cancelRef = useRef() as React.MutableRefObject<HTMLInputElement>;
 

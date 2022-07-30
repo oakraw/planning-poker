@@ -1,36 +1,20 @@
 import { useState } from "react";
-import {
-  VStack,
-  HStack,
-} from "@chakra-ui/react";
+import { VStack, HStack } from "@chakra-ui/react";
 import { Participant } from "../../../models/participant.model";
 import { ParticipantVotedCard } from "../../../components/ParticipantVotedCard";
 import { Card } from "../../../components/Card";
 import { theme } from "@chakra-ui/react";
+import { useObserveParticipants } from "../../../hooks/useApiCall";
+import { Room } from "../../../models/room.model";
 
-export const RoomPokerTable = () => {
-  const [participants] = useState<Participant[]>([
-    { userId: "1", name: "a" },
-    { userId: "2", name: "b" },
-    { userId: "3", name: "c" },
-    { userId: "4", name: "d" },
-    { userId: "5", name: "e" },
-    { userId: "6", name: "f" },
-    { userId: "7", name: "g" },
-    { userId: "8", name: "h" },
-    { userId: "9", name: "i" },
-    { userId: "10", name: "j" },
-    { userId: "10", name: "j" },
-    { userId: "10", name: "j" },
-    { userId: "10", name: "j" },
-    { userId: "10", name: "j" },
-    { userId: "11", name: "k" },
-    { userId: "12", name: "l" },
-    { userId: "13", name: "m" },
-    { userId: "14", name: "n" },
-  ]);
+interface Props {
+  room: Room;
+}
 
-  const seating = (participants: Participant[]): JSX.Element => {
+export const RoomPokerTable = ({ room }: Props) => {
+  const participants = useObserveParticipants(room.roomId);
+
+  const renderSeat = (participants: Participant[]): JSX.Element => {
     let topSeat: Participant[] = [];
     let leftSeat: Participant[] = [];
     let rightSeat: Participant[] = [];
@@ -68,27 +52,26 @@ export const RoomPokerTable = () => {
       count += 1;
     });
 
-    console.log("topSeat", topSeat);
-    console.log("leftSeat", leftSeat);
-    console.log("rightSeat", rightSeat);
-    console.log("bottomSeat", bottomSeat);
-
     return (
-      <VStack>
+      <VStack spacing={8}>
         <HStack spacing={8}>
-          {topSeat.map((participant) => (
+          {topSeat.map((participant, index) => (
             <ParticipantVotedCard
-              name={participant.name}
+              key={index}
+              name={participant.participantName}
               point={participant.point}
+              state={room.state}
             />
           ))}
         </HStack>
         <HStack spacing={8}>
           <VStack>
-            {leftSeat.map((participant) => (
+            {leftSeat.map((participant, index) => (
               <ParticipantVotedCard
-                name={participant.name}
+                key={index}
+                name={participant.participantName}
                 point={participant.point}
+                state={room.state}
               />
             ))}
           </VStack>
@@ -102,19 +85,23 @@ export const RoomPokerTable = () => {
             background={theme.colors.blue[100]}
           ></Card>
           <VStack>
-            {rightSeat.map((participant) => (
+            {rightSeat.map((participant, index) => (
               <ParticipantVotedCard
-                name={participant.name}
+                key={index}
+                name={participant.participantName}
                 point={participant.point}
+                state={room.state}
               />
             ))}
           </VStack>
         </HStack>
         <HStack spacing={8}>
-          {bottomSeat.map((participant) => (
+          {bottomSeat.map((participant, index) => (
             <ParticipantVotedCard
-              name={participant.name}
+              key={index}
+              name={participant.participantName}
               point={participant.point}
+              state={room.state}
             />
           ))}
         </HStack>
@@ -122,5 +109,5 @@ export const RoomPokerTable = () => {
     );
   };
 
-  return <>{seating(participants)}</>;
+  return <>{renderSeat(participants)}</>;
 };

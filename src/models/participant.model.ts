@@ -1,5 +1,5 @@
 export interface Participant {
-    userId: string;
-    name: string;
-    point?: number;
+  participantId: string;
+  participantName: string;
+  point?: number;
 }
