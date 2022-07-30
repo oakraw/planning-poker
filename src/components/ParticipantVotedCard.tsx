@@ -3,7 +3,7 @@ import { RoomState } from "../models/enum";
 
 interface Props {
   name: string;
-  point?: number;
+  point?: string;
   state?: RoomState;
 }
 
@@ -16,10 +16,10 @@ export const ParticipantVotedCard = ({ point, name, state }: Props) => {
         borderRadius={8}
         background={
           state === RoomState.END
-            ? theme.colors.white[50]
+            ? theme.colors.white
             : state === RoomState.VOTING && point !== null
             ? theme.colors.blue[300]
-            : theme.colors.gray[100]
+            : theme.colors.gray[200]
         }
       >
         <Heading

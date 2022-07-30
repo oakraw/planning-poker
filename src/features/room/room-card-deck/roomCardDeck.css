@@ -1,0 +1,15 @@
+.VotingCard {
+    cursor: pointer;
+    transition: transform .25s;
+}
+
+.VotingCard:hover {
+    background-color: rgba(0, 0, 0, 0.08);
+    stroke-width: 2px;
+    stroke: #4299E1;
+    transform: translate(0, -0.5rem);
+}
+
+.VotingCard:active {
+    background-color: rgba(0, 0, 0, 0.24);
+}

@@ -46,6 +46,13 @@ export const updateRoomInfo = (room: Room) => {
   });
 };
 
+export const vote = (roomId: string, participantId: string, point?: string) => {
+  const ref = doc(firestore, `rooms/${roomId}/participants/${participantId}`);
+  return updateDoc(ref, {
+    point,
+  });
+};
+
 export const observeRoom = (
   roomId: string,
   onUpdated: (room: Room) => void

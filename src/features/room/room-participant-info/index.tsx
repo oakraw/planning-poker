@@ -16,12 +16,13 @@ import { useAddParticipantToRoom } from "../../../hooks/useApiCall";
 interface Props {
   showDialog: boolean;
   roomId: string;
+  onParticipantCreated: (participantId: string) => void;
 }
 
-export const RoomParticipantInfo = ({ showDialog, roomId }: Props) => {
+export const RoomParticipantInfo = ({ showDialog, roomId, onParticipantCreated }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [name, setName] = useState<string>();
-  const { addParticpant } = useAddParticipantToRoom();
+  const { addParticipant } = useAddParticipantToRoom();
 
   useEffect(() => {
     if (showDialog) {
@@ -29,16 +30,17 @@ export const RoomParticipantInfo = ({ showDialog, roomId }: Props) => {
     }
   }, [onOpen, showDialog]);
 
-  const addParticpantToRoom = useCallback(async () => {
+  const addParticipantToRoom = useCallback(async () => {
     if (name) {
-      await addParticpant(roomId, name);
+      const participantId = await addParticipant(roomId, name);
+      onParticipantCreated(participantId)
     }
-  }, [addParticpant, name, roomId]);
+  }, [addParticipant, name, onParticipantCreated, roomId]);
 
   const onSubmit = useCallback(async () => {
-    addParticpantToRoom();
+    addParticipantToRoom();
     onClose();
-  }, [addParticpantToRoom, onClose]);
+  }, [addParticipantToRoom, onClose]);
 
   const cancelRef = useRef() as React.MutableRefObject<HTMLInputElement>;
 

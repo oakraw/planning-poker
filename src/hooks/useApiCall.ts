@@ -1,7 +1,13 @@
 import { useState, useEffect, useRef } from "react";
 import { Participant } from "../models/participant.model";
 import { Room } from "../models/room.model";
-import { createRoom as firebaseCreateRoom, updateRoomInfo as firebaseUpdateRoomInfo, observeParticpants, observeRoom } from "../services/firebase";
+import {
+  createRoom as firebaseCreateRoom,
+  updateRoomInfo as firebaseUpdateRoomInfo,
+  vote as firebaseVote,
+  observeParticpants,
+  observeRoom,
+} from "../services/firebase";
 import { addParticpantToRoom } from "../services/firebase";
 import { generateUUID } from "../utils/uuid";
 
@@ -18,22 +24,36 @@ export const useCreateRoom = (): {
 };
 
 export const useAddParticipantToRoom = (): {
-  addParticpant: (roomId: string, participantName: string) => Promise<string>;
+    addParticipant: (roomId: string, participantName: string) => Promise<string>;
 } => {
-  const addParticpant = async (
+  const addParticipant = async (
     roomId: string,
     participantName: string
   ): Promise<string> => {
     const id = generateUUID();
     await addParticpantToRoom(roomId, participantName, id);
-    return participantName;
+    return id;
   };
 
-  return { addParticpant };
+  return { addParticipant };
+};
+
+export const useVote = (): {
+  vote: (roomId: string, participantId: string, point?: string) => Promise<void>;
+} => {
+  const vote = async (
+    roomId: string,
+    participantId: string,
+    point?: string,
+  ): Promise<void> => {
+    await firebaseVote(roomId, participantId, point);
+  };
+
+  return { vote };
 };
 
 export const useUpdateRoomInfo = (): {
-    updateRoomInfo: (room: Room) => Promise<Room>;
+  updateRoomInfo: (room: Room) => Promise<Room>;
 } => {
   const updateRoomInfo = async (room: Room): Promise<Room> => {
     await firebaseUpdateRoomInfo(room);
@@ -43,7 +63,9 @@ export const useUpdateRoomInfo = (): {
   return { updateRoomInfo };
 };
 
-export const useObserveRoom = (roomId: string | undefined): Room | undefined => {
+export const useObserveRoom = (
+  roomId: string | undefined
+): Room | undefined => {
   const [room, setRoom] = useState<Room>();
   const isInitialRender = useRef(false);
 
@@ -52,7 +74,7 @@ export const useObserveRoom = (roomId: string | undefined): Room | undefined => 
       isInitialRender.current = true;
 
       await observeRoom(roomId!, (room: Room) => {
-        setRoom(room)
+        setRoom(room);
       });
     };
 
