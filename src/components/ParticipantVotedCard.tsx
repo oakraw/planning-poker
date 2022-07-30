@@ -13,6 +13,8 @@ export const ParticipantVotedCard = ({ point, name, state }: Props) => {
       <Box
         p={4}
         shadow="md"
+        minW="60px"
+        minH="64px"
         borderRadius={8}
         background={
           state === RoomState.END
@@ -23,6 +25,7 @@ export const ParticipantVotedCard = ({ point, name, state }: Props) => {
         }
       >
         <Heading
+          textAlign="center"
           fontSize="xl"
           style={{ visibility: state === RoomState.END ? "visible" : "hidden" }}
         >

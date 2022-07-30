@@ -82,7 +82,7 @@ export const observeRoom = (
   });
 };
 
-export const observeParticpants = (
+export const observeParticipants = (
   roomId: string,
   onUpdated: (participants: Participant[]) => void
 ) => {

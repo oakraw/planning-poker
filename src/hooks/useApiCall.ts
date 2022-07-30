@@ -5,7 +5,7 @@ import {
   createRoom as firebaseCreateRoom,
   updateRoomInfo as firebaseUpdateRoomInfo,
   vote as firebaseVote,
-  observeParticpants,
+  observeParticipants,
   observeRoom,
   clearPreviousSelectedPoint,
 } from "../services/firebase";
@@ -109,7 +109,7 @@ export const useObserveParticipants = (roomId: string): Participant[] => {
     const execute = async () => {
       isInitialRender.current = true;
 
-      await observeParticpants(roomId, (response) => {
+      await observeParticipants(roomId, (response) => {
         setParticipants(response);
       });
     };
