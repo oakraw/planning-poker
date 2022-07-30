@@ -1,5 +1,4 @@
 import { HStack, Heading, theme, Box, Text } from "@chakra-ui/react";
-import { useState } from "react";
 import { Card } from "../../../components/Card";
 import { useObserveParticipants } from "../../../hooks/useApiCall";
 
@@ -18,7 +17,6 @@ export const RoomCardResult = ({ roomId }: Props) => {
     }
   });
 
-  console.log("RoomCardResult", result);
 
   return (
     <HStack py={4}>

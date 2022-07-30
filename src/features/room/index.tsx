@@ -25,7 +25,7 @@ export const Room = () => {
             background={theme.colors.gray[50]}
           >
             <Center alignItems="stretch" flexGrow={1}>
-              {room && <RoomPokerTable room={room} />}
+              {room && <RoomPokerTable room={room} participantId={participantId} />}
             </Center>
 
             {room?.state === RoomState.END ? (

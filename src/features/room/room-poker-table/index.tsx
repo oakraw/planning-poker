@@ -14,11 +14,12 @@ import { RoomState } from "../../../models/enum";
 
 interface Props {
   room: Room;
+  participantId?: string;
 }
 
 const COUNT_DOWN_TIME = 3000;
 
-export const RoomPokerTable = ({ room }: Props) => {
+export const RoomPokerTable = ({ room, participantId }: Props) => {
   const [countDownTimer, setCountDownTimer] = useState<number>(0);
   const participants = useObserveParticipants(room.roomId);
   const { updateRoomInfo } = useUpdateRoomInfo();
@@ -79,6 +80,7 @@ export const RoomPokerTable = ({ room }: Props) => {
               name={participant.participantName}
               point={participant.point}
               state={room.state}
+              isOwner={participantId === participant.participantId}
             />
           ))}
         </HStack>
@@ -90,6 +92,7 @@ export const RoomPokerTable = ({ room }: Props) => {
                 name={participant.participantName}
                 point={participant.point}
                 state={room.state}
+                isOwner={participantId === participant.participantId}
               />
             ))}
           </VStack>
@@ -149,6 +152,7 @@ export const RoomPokerTable = ({ room }: Props) => {
                 name={participant.participantName}
                 point={participant.point}
                 state={room.state}
+                isOwner={participantId === participant.participantId}
               />
             ))}
           </VStack>
@@ -160,6 +164,7 @@ export const RoomPokerTable = ({ room }: Props) => {
               name={participant.participantName}
               point={participant.point}
               state={room.state}
+              isOwner={participantId === participant.participantId}
             />
           ))}
         </HStack>

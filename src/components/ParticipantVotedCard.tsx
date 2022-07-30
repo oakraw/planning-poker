@@ -5,9 +5,15 @@ interface Props {
   name: string;
   point?: string;
   state?: RoomState;
+  isOwner: boolean;
 }
 
-export const ParticipantVotedCard = ({ point, name, state }: Props) => {
+export const ParticipantVotedCard = ({
+  point,
+  name,
+  state,
+  isOwner,
+}: Props) => {
   return (
     <VStack justifyContent="center">
       <Box
@@ -32,7 +38,7 @@ export const ParticipantVotedCard = ({ point, name, state }: Props) => {
           {point ?? 0}
         </Heading>
       </Box>
-      <Text mt={4}>{name}</Text>
+      {isOwner ? <Heading fontSize="lg">{name}</Heading> : <Text mt={4}>{name}</Text>}
     </VStack>
   );
 };
