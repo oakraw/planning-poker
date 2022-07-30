@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Participant } from "../models/participant.model";
 import { Room } from "../models/room.model";
-import { createRoom as firebaseCreateRoom, observeParticpants, observeRoom } from "../services/firebase";
+import { createRoom as firebaseCreateRoom, updateRoomInfo as firebaseUpdateRoomInfo, observeParticpants, observeRoom } from "../services/firebase";
 import { addParticpantToRoom } from "../services/firebase";
 import { generateUUID } from "../utils/uuid";
 
@@ -30,6 +30,17 @@ export const useAddParticipantToRoom = (): {
   };
 
   return { addParticpant };
+};
+
+export const useUpdateRoomInfo = (): {
+    updateRoomInfo: (room: Room) => Promise<Room>;
+} => {
+  const updateRoomInfo = async (room: Room): Promise<Room> => {
+    await firebaseUpdateRoomInfo(room);
+    return room;
+  };
+
+  return { updateRoomInfo };
 };
 
 export const useObserveRoom = (roomId: string | undefined): Room | undefined => {

@@ -8,8 +8,6 @@ interface Props {
 }
 
 export const ParticipantVotedCard = ({ point, name, state }: Props) => {
-  console.log("state", state);
-
   return (
     <VStack justifyContent="center">
       <Box

@@ -6,6 +6,7 @@ import {
   setDoc,
   collection,
   onSnapshot,
+  updateDoc,
 } from "firebase/firestore";
 import { firebaseConfig } from "../config/firebase";
 import { Participant } from "../models/participant.model";
@@ -33,6 +34,15 @@ export const addParticpantToRoom = (
     participantName,
     participantId,
     point: null,
+  });
+};
+
+export const updateRoomInfo = (room: Room) => {
+  const { roomId, roomName, state } = room;
+  const ref = doc(firestore, `rooms/${roomId}`);
+  return updateDoc(ref, {
+    roomName,
+    state,
   });
 };
 

@@ -22,7 +22,6 @@ export const Home = () => {
   const oncCreateRoomClicked = useCallback(async () => {
     if (roomName) {
       const roomId = await createRoom(roomName);
-      console.log("roomId", roomId);
       navigate(`room/${roomId}`);
     } else {
       console.log("roomName is null");

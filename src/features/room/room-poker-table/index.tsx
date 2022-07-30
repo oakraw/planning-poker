@@ -1,17 +1,34 @@
-import { VStack, HStack } from "@chakra-ui/react";
+import { VStack, HStack, Button, Center, Heading } from "@chakra-ui/react";
 import { Participant } from "../../../models/participant.model";
 import { ParticipantVotedCard } from "../../../components/ParticipantVotedCard";
 import { Card } from "../../../components/Card";
 import { theme } from "@chakra-ui/react";
-import { useObserveParticipants } from "../../../hooks/useApiCall";
+import {
+  useObserveParticipants,
+  useUpdateRoomInfo,
+} from "../../../hooks/useApiCall";
 import { Room } from "../../../models/room.model";
+import { useCallback, useState } from "react";
+import { RoomState } from "../../../models/enum";
 
 interface Props {
   room: Room;
 }
 
+const COUNT_DOWN_TIME = 3000;
+
 export const RoomPokerTable = ({ room }: Props) => {
+  const [countDownTimer, setCountDownTimer] = useState<number>(0);
   const participants = useObserveParticipants(room.roomId);
+  const { updateRoomInfo } = useUpdateRoomInfo();
+
+  const onUpdateRoomState = useCallback(
+    async (state: RoomState) => {
+      const votingRoom = { ...room, state };
+      await updateRoomInfo(votingRoom);
+    },
+    [room, updateRoomInfo]
+  );
 
   const renderSeat = (participants: Participant[]): JSX.Element => {
     let topSeat: Participant[] = [];
@@ -52,7 +69,7 @@ export const RoomPokerTable = ({ room }: Props) => {
     });
 
     return (
-      <VStack spacing={8}>
+      <VStack spacing={8} justifyContent="center">
         <HStack spacing={8}>
           {topSeat.map((participant, index) => (
             <ParticipantVotedCard
@@ -82,7 +99,44 @@ export const RoomPokerTable = ({ room }: Props) => {
               minHeight: "15rem",
             }}
             background={theme.colors.blue[100]}
-          ></Card>
+          >
+            <Center h={{ base: "100%" }}>
+              {countDownTimer !== 0 ? (
+                <Heading fontSize="2xl" color={theme.colors.blue[500]}>{countDownTimer / 1000}</Heading>
+              ) : room.state === RoomState.VOTING ? (
+                <Button
+                  colorScheme="gray"
+                  size="lg"
+                  onClick={() => {
+                    let countDownTime = COUNT_DOWN_TIME;
+
+                    setCountDownTimer(countDownTime);
+                    const downloadTimer = setInterval(() => {
+                      countDownTime -= 1000;
+                      
+                      setCountDownTimer(countDownTime);
+                      if (countDownTime <= 0) {
+                        setCountDownTimer(0);
+                        onUpdateRoomState(RoomState.END);
+
+                        clearInterval(downloadTimer);
+                      }
+                    }, 1000);
+                  }}
+                >
+                  Reveal cards
+                </Button>
+              ) : (
+                <Button
+                  colorScheme="blue"
+                  size="lg"
+                  onClick={() => onUpdateRoomState(RoomState.VOTING)}
+                >
+                  Start voting
+                </Button>
+              )}
+            </Center>
+          </Card>
           <VStack>
             {rightSeat.map((participant, index) => (
               <ParticipantVotedCard
