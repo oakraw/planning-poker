@@ -1,4 +1,12 @@
-import { Center, Box, theme, VStack } from "@chakra-ui/react";
+import {
+  Center,
+  Box,
+  theme,
+  VStack,
+  Heading,
+  Text,
+  HStack,
+} from "@chakra-ui/react";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useObserveRoom, useVote } from "../../hooks/useApiCall";
@@ -14,7 +22,6 @@ export const Room = () => {
   const room = useObserveRoom(roomId);
   const { vote } = useVote();
 
-  console.log(room);
   return (
     <>
       {roomId && (
@@ -24,8 +31,13 @@ export const Room = () => {
             h="calc(100vh)"
             background={theme.colors.gray[50]}
           >
+            <HStack p={4} width={{ base: "100%" }}>
+              <Heading fontSize="xl" mr={2}>♠️ {room?.roomName}</Heading>
+            </HStack>
             <Center alignItems="stretch" flexGrow={1}>
-              {room && <RoomPokerTable room={room} participantId={participantId} />}
+              {room && (
+                <RoomPokerTable room={room} participantId={participantId} />
+              )}
             </Center>
 
             {room?.state === RoomState.END ? (
