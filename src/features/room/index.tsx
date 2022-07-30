@@ -1,5 +1,4 @@
 import { Center } from "@chakra-ui/react";
-import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useObserveRoom } from "../../hooks/useApiCall";
 import { RoomParticipantInfo } from "./room-participant-info";

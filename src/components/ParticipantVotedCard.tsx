@@ -1,5 +1,4 @@
 import { Box, Heading, Text, theme, VStack } from "@chakra-ui/react";
-import { title } from "process";
 import { RoomState } from "../models/enum";
 
 interface Props {

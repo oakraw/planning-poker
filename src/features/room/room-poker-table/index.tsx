@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { VStack, HStack } from "@chakra-ui/react";
 import { Participant } from "../../../models/participant.model";
 import { ParticipantVotedCard } from "../../../components/ParticipantVotedCard";

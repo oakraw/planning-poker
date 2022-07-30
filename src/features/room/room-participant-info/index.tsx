@@ -11,7 +11,6 @@ import {
   AlertDialogOverlay,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useParams } from "react-router";
 import { useAddParticipantToRoom } from "../../../hooks/useApiCall";
 
 interface Props {
@@ -31,11 +30,8 @@ export const RoomParticipantInfo = ({ showDialog, roomId }: Props) => {
   }, [onOpen, showDialog]);
 
   const addParticpantToRoom = useCallback(async () => {
-    console.log("name", name);
     if (name) {
-      const participants = await addParticpant(roomId, name);
-    } else {
-      console.log("name is null");
+      await addParticpant(roomId, name);
     }
   }, [addParticpant, name, roomId]);
 

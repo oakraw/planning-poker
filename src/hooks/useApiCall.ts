@@ -69,7 +69,7 @@ export const useObserveParticipants = (roomId: string): Participant[] => {
     if (!isInitialRender.current) {
       execute();
     }
-  }, []);
+  }, [roomId]);
 
   return participants;
 };

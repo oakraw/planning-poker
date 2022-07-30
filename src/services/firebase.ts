@@ -5,7 +5,6 @@ import {
   doc,
   setDoc,
   collection,
-  addDoc,
   onSnapshot,
 } from "firebase/firestore";
 import { firebaseConfig } from "../config/firebase";

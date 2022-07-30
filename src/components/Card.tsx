@@ -1,5 +1,4 @@
-import { Box, BoxProps, Heading, Text, VStack } from "@chakra-ui/react";
-import { title } from "process";
+import { Box, BoxProps } from "@chakra-ui/react";
 
 interface Props extends BoxProps {}
 
