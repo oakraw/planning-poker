@@ -1,6 +1,6 @@
 import { VStack, HStack, Button, Center, Heading } from "@chakra-ui/react";
 import { Participant } from "../../../models/participant.model";
-import { ParticipantVotedCard } from "../../../components/ParticipantVotedCard";
+import { ParticipantVotedCard } from "../../../components/participant-voted-card";
 import { Card } from "../../../components/Card";
 import { theme } from "@chakra-ui/react";
 import {
