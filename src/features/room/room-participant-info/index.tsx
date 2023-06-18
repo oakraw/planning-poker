@@ -12,6 +12,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useAddParticipantToRoom } from "../../../hooks/useApiCall";
+import { useCookie } from "../../../hooks/useCookie";
 
 interface Props {
   showDialog: boolean;
@@ -19,10 +20,15 @@ interface Props {
   onParticipantCreated: (participantId: string) => void;
 }
 
-export const RoomParticipantInfo = ({ showDialog, roomId, onParticipantCreated }: Props) => {
+export const RoomParticipantInfo = ({
+  showDialog,
+  roomId,
+  onParticipantCreated,
+}: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [name, setName] = useState<string>();
   const { addParticipant } = useAddParticipantToRoom();
+  const { saveSession } = useCookie();
 
   useEffect(() => {
     if (showDialog) {
@@ -33,9 +39,10 @@ export const RoomParticipantInfo = ({ showDialog, roomId, onParticipantCreated }
   const addParticipantToRoom = useCallback(async () => {
     if (name) {
       const participantId = await addParticipant(roomId, name);
-      onParticipantCreated(participantId)
+      onParticipantCreated(participantId);
+      saveSession(participantId, roomId);
     }
-  }, [addParticipant, name, onParticipantCreated, roomId]);
+  }, [addParticipant, name, saveSession, onParticipantCreated, roomId]);
 
   const onSubmit = useCallback(async () => {
     addParticipantToRoom();

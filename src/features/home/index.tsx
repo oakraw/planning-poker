@@ -33,8 +33,8 @@ export const Home = () => {
       <Center h="calc(100vh)">
         <Box textAlign="center" fontSize="xl">
           <Grid p={3}>
-            <VStack spacing={8}>
-              <Text>Choose a name and a voting system for your game.</Text>
+            <VStack spacing={8}  width={{ base: "100%", md:"24em" }}>
+              <Text>Choose a name for your game.</Text>
               <Input
                 placeholder="Room's name"
                 size="lg"
