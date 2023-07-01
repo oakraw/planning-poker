@@ -55,6 +55,20 @@ export const vote = (roomId: string, participantId: string, point?: string) => {
   });
 };
 
+export const sendEmoji = (
+  roomId: string,
+  participantId: string,
+  emoji?: string
+) => {
+  const ref = doc(firestore, `rooms/${roomId}/participants/${participantId}`);
+  return updateDoc(ref, {
+    emoji: {
+      value: emoji,
+      timeStamp: Date.now(),
+    },
+  });
+};
+
 export const clearPreviousSelectedPoint = async (roomId: string) => {
   const ref = collection(firestore, `rooms/${roomId}/participants`);
   const querySnapshot = await getDocs(ref);
@@ -62,7 +76,7 @@ export const clearPreviousSelectedPoint = async (roomId: string) => {
   const batch = writeBatch(firestore);
 
   querySnapshot.forEach((data) => {
-    const dataRef = doc(firestore,  `rooms/${roomId}/participants/${data.id}`);
+    const dataRef = doc(firestore, `rooms/${roomId}/participants/${data.id}`);
     batch.update(dataRef, { point: null });
   });
 
@@ -89,11 +103,12 @@ export const observeParticipants = (
   const ref = collection(firestore, `rooms/${roomId}/participants`);
   onSnapshot(ref, (snapshot) => {
     const participants = snapshot.docs.map((doc) => {
-      const { participantId, participantName, point } = doc.data();
+      const { participantId, participantName, point, emoji } = doc.data();
       return {
         participantId,
         participantName,
         point,
+        emoji,
       };
     });
     onUpdated(participants);

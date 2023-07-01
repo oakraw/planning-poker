@@ -5,6 +5,7 @@ import {
   createRoom as firebaseCreateRoom,
   updateRoomInfo as firebaseUpdateRoomInfo,
   vote as firebaseVote,
+  sendEmoji as firebaseSendEmoji,
   observeParticipants,
   observeRoom,
   clearPreviousSelectedPoint,
@@ -55,6 +56,24 @@ export const useVote = (): {
   };
 
   return { vote };
+};
+
+export const useSendEmoji = (): {
+  sendEmoji: (
+    roomId: string,
+    participantId: string,
+    emoji?: string
+  ) => Promise<void>;
+} => {
+  const sendEmoji = async (
+    roomId: string,
+    participantId: string,
+    emoji?: string
+  ): Promise<void> => {
+    await firebaseSendEmoji(roomId, participantId, emoji);
+  };
+
+  return { sendEmoji };
 };
 
 export const useClearVote = (): {

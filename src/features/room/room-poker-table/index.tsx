@@ -80,6 +80,7 @@ export const RoomPokerTable = ({ room, participantId }: Props) => {
               name={participant.participantName}
               point={participant.point}
               state={room.state}
+              emoji={participant.emoji}
               isOwner={participantId === participant.participantId}
             />
           ))}
@@ -92,6 +93,7 @@ export const RoomPokerTable = ({ room, participantId }: Props) => {
                 name={participant.participantName}
                 point={participant.point}
                 state={room.state}
+                emoji={participant.emoji}
                 isOwner={participantId === participant.participantId}
               />
             ))}
@@ -107,7 +109,9 @@ export const RoomPokerTable = ({ room, participantId }: Props) => {
           >
             <Center h={{ base: "100%" }}>
               {countDownTimer !== 0 ? (
-                <Heading fontSize="2xl" color={theme.colors.blue[500]}>{countDownTimer / 1000}</Heading>
+                <Heading fontSize="2xl" color={theme.colors.blue[500]}>
+                  {countDownTimer / 1000}
+                </Heading>
               ) : room.state === RoomState.VOTING ? (
                 <Button
                   colorScheme="gray"
@@ -118,7 +122,7 @@ export const RoomPokerTable = ({ room, participantId }: Props) => {
                     setCountDownTimer(countDownTime);
                     const downloadTimer = setInterval(() => {
                       countDownTime -= 1000;
-                      
+
                       setCountDownTimer(countDownTime);
                       if (countDownTime <= 0) {
                         setCountDownTimer(0);
@@ -137,8 +141,8 @@ export const RoomPokerTable = ({ room, participantId }: Props) => {
                   size="lg"
                   onClick={() => {
                     clearVote(room.roomId);
-                    onUpdateRoomState(RoomState.VOTING);}
-                  }
+                    onUpdateRoomState(RoomState.VOTING);
+                  }}
                 >
                   Start voting
                 </Button>
@@ -152,6 +156,7 @@ export const RoomPokerTable = ({ room, participantId }: Props) => {
                 name={participant.participantName}
                 point={participant.point}
                 state={room.state}
+                emoji={participant.emoji}
                 isOwner={participantId === participant.participantId}
               />
             ))}
@@ -164,6 +169,7 @@ export const RoomPokerTable = ({ room, participantId }: Props) => {
               name={participant.participantName}
               point={participant.point}
               state={room.state}
+              emoji={participant.emoji}
               isOwner={participantId === participant.participantId}
             />
           ))}
