@@ -9,6 +9,7 @@ import {
   observeParticipants,
   observeRoom,
   clearPreviousSelectedPoint,
+  removeParticipantFromRoom,
 } from "../services/firebase";
 import { addParticpantToRoom } from "../services/firebase";
 import { generateUUID } from "../utils/uuid";
@@ -38,6 +39,20 @@ export const useAddParticipantToRoom = (): {
   };
 
   return { addParticipant };
+};
+
+export const useRemoveParticipantFromRoom = (): {
+  removeParticipant: (roomId: string, participantId: string) => Promise<string>;
+} => {
+  const removeParticipant = async (
+    roomId: string,
+    participantId: string
+  ): Promise<string> => {
+    await removeParticipantFromRoom(roomId, participantId);
+    return participantId;
+  };
+
+  return { removeParticipant };
 };
 
 export const useVote = (): {

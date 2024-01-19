@@ -6,11 +6,12 @@ import { theme } from "@chakra-ui/react";
 import {
   useClearVote,
   useObserveParticipants,
+  useRemoveParticipantFromRoom,
   useUpdateRoomInfo,
 } from "../../../hooks/useApiCall";
 import { Room } from "../../../models/room.model";
 import { useCallback, useState } from "react";
-import { RoomState } from "../../../models/enum";
+import { RoomRole, RoomState } from "../../../models/enum";
 
 interface Props {
   room: Room;
@@ -25,12 +26,25 @@ export const RoomPokerTable = ({ room, participantId }: Props) => {
   const { updateRoomInfo } = useUpdateRoomInfo();
   const { clearVote } = useClearVote();
 
+  const { removeParticipant } = useRemoveParticipantFromRoom()
+
+  
+  const isHost = participants.find(item => item.participantId === participantId)?.role === RoomRole.HOST
+
+
   const onUpdateRoomState = useCallback(
     async (state: RoomState) => {
       const votingRoom = { ...room, state };
       await updateRoomInfo(votingRoom);
     },
     [room, updateRoomInfo]
+  );
+
+  const removeParticipantFromRoom = useCallback(
+    async (removeParticipantId: string) => {
+      await removeParticipant(room.roomId, removeParticipantId);
+    },
+    [removeParticipant, room.roomId]
   );
 
   const renderSeat = (participants: Participant[]): JSX.Element => {
@@ -80,8 +94,11 @@ export const RoomPokerTable = ({ room, participantId }: Props) => {
               name={participant.participantName}
               point={participant.point}
               state={room.state}
+              role={participant.role}
               emoji={participant.emoji}
               isOwner={participantId === participant.participantId}
+              isHost={isHost}
+              onRemoveParticipant={() => removeParticipantFromRoom(participant.participantId)}
             />
           ))}
         </HStack>
@@ -93,8 +110,11 @@ export const RoomPokerTable = ({ room, participantId }: Props) => {
                 name={participant.participantName}
                 point={participant.point}
                 state={room.state}
+                role={participant.role}
                 emoji={participant.emoji}
                 isOwner={participantId === participant.participantId}
+                isHost={isHost}
+                onRemoveParticipant={() => removeParticipantFromRoom(participant.participantId)}
               />
             ))}
           </VStack>
@@ -157,7 +177,10 @@ export const RoomPokerTable = ({ room, participantId }: Props) => {
                 point={participant.point}
                 state={room.state}
                 emoji={participant.emoji}
+                role={participant.role}
                 isOwner={participantId === participant.participantId}
+                isHost={isHost}
+                onRemoveParticipant={() => removeParticipantFromRoom(participant.participantId)}
               />
             ))}
           </VStack>
@@ -170,7 +193,10 @@ export const RoomPokerTable = ({ room, participantId }: Props) => {
               point={participant.point}
               state={room.state}
               emoji={participant.emoji}
+              role={participant.role}
               isOwner={participantId === participant.participantId}
+              isHost={isHost}
+              onRemoveParticipant={() => removeParticipantFromRoom(participant.participantId)}
             />
           ))}
         </HStack>

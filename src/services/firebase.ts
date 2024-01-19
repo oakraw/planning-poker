@@ -1,5 +1,4 @@
 import * as firebase from "firebase/app";
-import "firebase/firestore";
 import {
   getFirestore,
   doc,
@@ -7,10 +6,13 @@ import {
   collection,
   onSnapshot,
   updateDoc,
+  deleteDoc,
   getDocs,
   writeBatch,
+  getCountFromServer,
 } from "firebase/firestore";
 import { firebaseConfig } from "../config/firebase";
+import { RoomRole } from "../models/enum";
 import { Participant } from "../models/participant.model";
 import { Room } from "../models/room.model";
 
@@ -26,17 +28,31 @@ export const createRoom = (roomId: string, roomName: string) => {
   });
 };
 
-export const addParticpantToRoom = (
+export const addParticpantToRoom = async (
   roomId: string,
   participantName: string,
   participantId: string
 ) => {
+  const participants = collection(firestore, `rooms/${roomId}/participants`);
+  const snapshot = getCountFromServer(participants);
+  
+  const count = (await snapshot).data().count;
+
   const ref = doc(firestore, `rooms/${roomId}/participants/${participantId}`);
   return setDoc(ref, {
     participantName,
     participantId,
     point: null,
+    role: count > 0 ? RoomRole.MEMBER : RoomRole.HOST,
   });
+};
+
+export const removeParticipantFromRoom = async (
+  roomId: string,
+  participantId: string
+) => {
+  const ref = doc(firestore, `rooms/${roomId}/participants/${participantId}`);
+  return deleteDoc(ref);
 };
 
 export const updateRoomInfo = (room: Room) => {
@@ -103,12 +119,13 @@ export const observeParticipants = (
   const ref = collection(firestore, `rooms/${roomId}/participants`);
   onSnapshot(ref, (snapshot) => {
     const participants = snapshot.docs.map((doc) => {
-      const { participantId, participantName, point, emoji } = doc.data();
+      const { participantId, participantName, point, emoji, role } = doc.data();
       return {
         participantId,
         participantName,
         point,
         emoji,
+        role,
       };
     });
     onUpdated(participants);
