@@ -21,7 +21,7 @@ import { RoomRole, RoomState } from "../../models/enum";
 import { Emoji } from "../../models/participant.model";
 import { useEffect, useRef, useState } from "react";
 import { Card } from "../Card";
-import { BiHomeAlt } from "react-icons/bi";
+import { TiHome } from "react-icons/ti";
 import { GiFootprint } from "react-icons/gi";
 
 interface Props {
@@ -132,7 +132,7 @@ export const ParticipantVotedCard = ({
             )}
           </Box>
           <Flex direction="row" align="center" mt={4}>
-            {role === RoomRole.HOST && <BiHomeAlt />}
+            {role === RoomRole.HOST && <TiHome />}
             {isOwner ? (
               <Heading
                 fontSize="lg"

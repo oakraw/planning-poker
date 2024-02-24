@@ -23,7 +23,7 @@ export const RoomCardDeck = ({ onSelectedCard }: Props) => {
   ]);
 
   return (
-    <HStack py={4}>
+    <HStack p={4}>
       {decks.map((card, index) =>
         card === selectedCard ? (
           <Card

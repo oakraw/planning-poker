@@ -29,7 +29,7 @@ import { BiWinkSmile } from "react-icons/bi";
 import { emojis, recommendEmojis } from "../../config/emoji";
 
 export const Room = () => {
-  const { onOpen, onClose, isOpen } = useDisclosure()
+  const { onOpen, onClose, isOpen } = useDisclosure();
   const [participantId, setParticipantId] = useState<string>();
   const { roomId } = useParams();
   const room = useObserveRoom(roomId);
@@ -65,11 +65,12 @@ export const Room = () => {
               )}
             </Center>
 
-            <Flex direction="row" alignItems="center">
+            <Flex direction="row" maxW="100%" alignItems="center" overflow="auto">
               {room?.state === RoomState.END ? (
                 <RoomCardResult roomId={roomId} />
               ) : (
                 <Box
+                  flex={1}
                   style={{
                     visibility:
                       room?.state === RoomState.VOTING ? "visible" : "hidden",

@@ -26,11 +26,11 @@ export const RoomPokerTable = ({ room, participantId }: Props) => {
   const { updateRoomInfo } = useUpdateRoomInfo();
   const { clearVote } = useClearVote();
 
-  const { removeParticipant } = useRemoveParticipantFromRoom()
+  const { removeParticipant } = useRemoveParticipantFromRoom();
 
-  
-  const isHost = participants.find(item => item.participantId === participantId)?.role === RoomRole.HOST
-
+  const isHost =
+    participants.find((item) => item.participantId === participantId)?.role ===
+    RoomRole.HOST;
 
   const onUpdateRoomState = useCallback(
     async (state: RoomState) => {
@@ -98,7 +98,9 @@ export const RoomPokerTable = ({ room, participantId }: Props) => {
               emoji={participant.emoji}
               isOwner={participantId === participant.participantId}
               isHost={isHost}
-              onRemoveParticipant={() => removeParticipantFromRoom(participant.participantId)}
+              onRemoveParticipant={() =>
+                removeParticipantFromRoom(participant.participantId)
+              }
             />
           ))}
         </HStack>
@@ -114,17 +116,17 @@ export const RoomPokerTable = ({ room, participantId }: Props) => {
                 emoji={participant.emoji}
                 isOwner={participantId === participant.participantId}
                 isHost={isHost}
-                onRemoveParticipant={() => removeParticipantFromRoom(participant.participantId)}
+                onRemoveParticipant={() =>
+                  removeParticipantFromRoom(participant.participantId)
+                }
               />
             ))}
           </VStack>
           <Card
-            style={{
-              width: "100%",
-              height: "100%",
-              minWidth: "25rem",
-              minHeight: "15rem",
-            }}
+            width="50vw"
+            height="15rem"
+            maxWidth="25rem"
+            maxHeight="15rem"
             background={theme.colors.blue[100]}
           >
             <Center h={{ base: "100%" }}>
@@ -180,7 +182,9 @@ export const RoomPokerTable = ({ room, participantId }: Props) => {
                 role={participant.role}
                 isOwner={participantId === participant.participantId}
                 isHost={isHost}
-                onRemoveParticipant={() => removeParticipantFromRoom(participant.participantId)}
+                onRemoveParticipant={() =>
+                  removeParticipantFromRoom(participant.participantId)
+                }
               />
             ))}
           </VStack>
@@ -196,7 +200,9 @@ export const RoomPokerTable = ({ room, participantId }: Props) => {
               role={participant.role}
               isOwner={participantId === participant.participantId}
               isHost={isHost}
-              onRemoveParticipant={() => removeParticipantFromRoom(participant.participantId)}
+              onRemoveParticipant={() =>
+                removeParticipantFromRoom(participant.participantId)
+              }
             />
           ))}
         </HStack>

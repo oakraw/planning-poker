@@ -19,7 +19,7 @@ export const RoomCardResult = ({ roomId }: Props) => {
 
 
   return (
-    <HStack py={4}>
+    <HStack p={4}>
       <Heading fontSize="xl" mr={8}>Voting Result</Heading>
       {Array.from(result.keys()).map((card, index) => (
         <Card
