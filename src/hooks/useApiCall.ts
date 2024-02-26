@@ -76,15 +76,19 @@ export const useAddIssueToRoom = (): {
 };
 
 export const useUpdateIssueInRoom = (): {
-  updateIssue: (
+  patchIssue: (
     roomId: string,
     issueId: string,
     isPin?: boolean,
     isLock?: boolean,
     point?: string
+  ) => Promise<string>,
+  updateIssue: (
+    roomId: string,
+    issue: Issue,
   ) => Promise<string>;
 } => {
-  const updateIssue = async (
+  const patchIssue = async (
     roomId: string,
     issueId: string,
     isPin?: boolean,
@@ -95,7 +99,15 @@ export const useUpdateIssueInRoom = (): {
     return issueId;
   };
 
-  return { updateIssue };
+  const updateIssue = async (
+    roomId: string,
+    issue: Issue,
+  ): Promise<string> => {
+    await updateIssueInRoom(roomId, issue.issueId, issue.isPin, issue.isLock, issue.point, issue.issueTitle);
+    return issue.issueId;
+  };
+
+  return { patchIssue, updateIssue };
 };
 
 export const useRemoveIssueFromRoom = (): {

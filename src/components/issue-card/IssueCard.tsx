@@ -1,18 +1,32 @@
 import {
-  Button, Flex, Heading, IconButton, Menu,
-  MenuButton, MenuItem, MenuList, Text,
-  theme
+  Button,
+  Flex,
+  Heading,
+  IconButton,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Text,
+  theme,
 } from "@chakra-ui/react";
+import { useState } from "react";
 import { IoMdMore } from "react-icons/io";
 import {
-  RiDeleteBinLine, RiLock2Fill, RiLock2Line, RiPushpinFill,
-  RiPushpinLine
+  RiDeleteBinLine,
+  RiLock2Fill,
+  RiLock2Line,
+  RiPushpinFill,
+  RiPushpinLine,
+  RiEdit2Line,
 } from "react-icons/ri";
 import { Issue } from "../../models/issue.model";
 import { Card } from "../Card";
+import { EditIssueCard } from "./EditIssueCard";
 
 interface Props {
   issue: Issue;
+  onEditIssue: (editedIssue: Issue) => void;
   onPinIssue: (id: string, isPin: boolean) => void;
   onLockIssue: (id: string, isLock: boolean) => void;
   onRemoveIssue: (id: string) => void;
@@ -21,11 +35,21 @@ interface Props {
 
 export const IssueCard = ({
   issue,
+  onEditIssue,
   onPinIssue,
   onLockIssue,
   onRemoveIssue,
   onPointUpdate,
 }: Props) => {
+  const [isEditMode, setEditMode] = useState(false)
+
+  if (isEditMode) {
+    return <EditIssueCard issue={issue} onEditIssue={(issue) => { 
+      setEditMode(false)
+      onEditIssue(issue) 
+    }} />
+  }
+
   return (
     <Card
       p={2}
@@ -59,6 +83,12 @@ export const IssueCard = ({
               />
               <MenuList>
                 <MenuItem
+                  icon={<RiEdit2Line />}
+                  onClick={() => setEditMode(true)}
+                >
+                  Edit
+                </MenuItem>
+                <MenuItem
                   icon={issue.isPin ? <RiPushpinFill /> : <RiPushpinLine />}
                   onClick={() => onPinIssue(issue.issueId, !issue.isPin)}
                 >
@@ -81,7 +111,13 @@ export const IssueCard = ({
             </Menu>
           )}
           {issue.isLock ? (
-            <Heading size="sm" textAlign="center" color={theme.colors.blue[500]}>{issue.point || "-"}</Heading>
+            <Heading
+              size="sm"
+              textAlign="center"
+              color={theme.colors.blue[500]}
+            >
+              {issue.point || "-"}
+            </Heading>
           ) : (
             <Button
               size="xs"

@@ -23,7 +23,7 @@ export const RoomIssue = ({ roomId, votedPoint }: Props) => {
 
   const { addIssue } = useAddIssueToRoom();
   const { removeIssue } = useRemoveIssueFromRoom();
-  const { updateIssue } = useUpdateIssueInRoom();
+  const { patchIssue, updateIssue } = useUpdateIssueInRoom();
   const issues = useObserveIssues(roomId);
 
   const submitNewIssue = useCallback(
@@ -76,17 +76,20 @@ export const RoomIssue = ({ roomId, votedPoint }: Props) => {
         <IssueCard
           key={index}
           issue={issue}
+          onEditIssue={(issue) => {
+            updateIssue(roomId, issue)
+          }}
           onPinIssue={(issueId, isPin) => {
-            updateIssue(roomId, issueId, isPin);
+            patchIssue(roomId, issueId, isPin);
           }}
           onLockIssue={(issueId, isLock) => {
-            updateIssue(roomId, issueId, undefined, isLock);
+            patchIssue(roomId, issueId, undefined, isLock);
           }}
           onRemoveIssue={(issueId) => {
             removeIssue(roomId, issueId);
           }}
           onPointUpdate={(issueId) => {
-            updateIssue(roomId, issueId, undefined, undefined, votedPoint);
+            patchIssue(roomId, issueId, undefined, undefined, votedPoint);
           }}
         />
       ))}

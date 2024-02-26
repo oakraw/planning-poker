@@ -76,7 +76,8 @@ export const updateIssueInRoom = async (
   issueId: string,
   isPin?: boolean,
   isLock?: boolean,
-  point?: string
+  point?: string,
+  issueTitle?: string,
 ) => {
   const ref = doc(firestore, `rooms/${roomId}/issues/${issueId}`);
 
@@ -84,6 +85,7 @@ export const updateIssueInRoom = async (
     isPin,
     isLock,
     point,
+    issueTitle,
   });
 
   return updateDoc(ref, payload);
