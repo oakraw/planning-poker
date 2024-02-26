@@ -34,7 +34,7 @@ export const IssueCard = ({
       borderRadius={8}
     >
       <Flex direction="row">
-        <Text flex={1} minH="5rem" overflowWrap="anywhere">
+        <Text fontSize="0.75rem" flex={1} minH="5rem" overflowWrap="anywhere">
           {issue.isPin && "📌 "}
           {issue.issueTitle}
         </Text>

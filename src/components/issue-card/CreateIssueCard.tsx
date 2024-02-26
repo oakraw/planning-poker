@@ -24,6 +24,7 @@ export const CreateIssueCard = ({ onAddIssue }: Props) => {
           placeholder="Enter some text"
           size="sm"
           value={title}
+          fontSize="0.75rem"
           onChange={(e) => setTitle(e.target.value)}
         />
         <Button

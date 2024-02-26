@@ -1,7 +1,7 @@
 export interface Issue {
   issueId: string;
   issueTitle: string;
-  point?: number;
+  point?: string;
   isLock: boolean;
   isPin: boolean;
   createdAt?: Date;

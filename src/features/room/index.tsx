@@ -1,6 +1,6 @@
 import {
   Box, Button, Center, Divider,
-  Flex, Heading, IconButton, Popover, PopoverContent, PopoverTrigger, SimpleGrid, Text, theme, useDisclosure
+  Flex, Heading, IconButton, Popover, PopoverContent, PopoverTrigger, SimpleGrid, Text, theme, useDisclosure, useMediaQuery
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { BiWinkSmile } from "react-icons/bi";
@@ -34,6 +34,7 @@ export const Room = () => {
 
   const { getSavedSession } = useCookie();
   const { savedParticipantId, savedRoomId } = getSavedSession();
+  const [isLargerThan800] = useMediaQuery('(min-width: 800px)')
 
   useEffect(() => {
     if (savedParticipantId) {
@@ -49,8 +50,12 @@ export const Room = () => {
   }, [room?.state]);
 
   useEffect(() => {
-    onIssueOpen();
-  }, []);
+    if (isLargerThan800) {
+      onIssueOpen();
+    } else {
+      onIssueClose();
+    }
+  }, [isLargerThan800, onIssueClose, onIssueOpen]);
 
   return (
     <>

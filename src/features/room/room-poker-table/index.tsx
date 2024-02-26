@@ -1,4 +1,4 @@
-import { VStack, HStack, Button, Center, Heading } from "@chakra-ui/react";
+import { VStack, HStack, Button, Center, Heading, Flex } from "@chakra-ui/react";
 import { Participant } from "../../../models/participant.model";
 import { ParticipantVotedCard } from "../../../components/participant-voted-card";
 import { Card } from "../../../components/Card";
@@ -104,7 +104,7 @@ export const RoomPokerTable = ({ room, participantId }: Props) => {
             />
           ))}
         </HStack>
-        <HStack spacing={8} width="100%">
+        <Flex direction="row" justify="space-between" alignItems="center" width="100%">
           <VStack>
             {leftSeat.map((participant, index) => (
               <ParticipantVotedCard
@@ -123,10 +123,12 @@ export const RoomPokerTable = ({ room, participantId }: Props) => {
             ))}
           </VStack>
           <Card
-            width="50vw"
-            height="15rem"
-            maxWidth="25rem"
-            maxHeight="15rem"
+            height="100%"
+            maxWidth="50rem"
+            minWidth="20rem"
+            minHeight="10rem"
+            flex={1}
+            m={8}
             background={theme.colors.blue[100]}
           >
             <Center h={{ base: "100%" }}>
@@ -188,7 +190,7 @@ export const RoomPokerTable = ({ room, participantId }: Props) => {
               />
             ))}
           </VStack>
-        </HStack>
+        </Flex>
         <HStack spacing={8}>
           {bottomSeat.map((participant, index) => (
             <ParticipantVotedCard

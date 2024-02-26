@@ -1,5 +1,5 @@
 import * as firebase from "firebase/app";
-import * as firestoreUtils from "firebase/firestore";
+import { Timestamp } from "firebase/firestore";
 import {
   getFirestore,
   doc,
@@ -67,7 +67,7 @@ export const addIssueToRoom = async (
   return setDoc(ref, {
     issueTitle,
     issueId,
-    createdAt: firestoreUtils.Timestamp.fromDate(new Date()),
+    createdAt: Timestamp.fromDate(new Date()),
   });
 };
 
@@ -180,13 +180,14 @@ export const observeIssues = (
     const issues = snapshot.docs.map((doc) => {
       const { issueId, issueTitle, point, isLock, isPin, createdAt } =
         doc.data();
+
       return {
         issueId,
         issueTitle,
         point,
         isPin,
         isLock,
-        createdAt,
+        createdAt: createdAt?.toDate(),
       };
     });
     onUpdated(issues);

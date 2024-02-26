@@ -222,7 +222,14 @@ export const useObserveIssues = (roomId: string): Issue[] => {
       isInitialRender.current = true;
 
       await observeIssues(roomId, (response) => {
-        const sortedIssues = response.sort((a, b) => (a.isPin === b.isPin) ? 0 : a.isPin ? -1 : 1);
+        const sortedIssues = response
+          .sort((a, b) => {
+            const dateA = a.createdAt ?? new Date();
+            const dateB = b.createdAt ?? new Date();
+
+            return dateB.getTime() - dateA.getTime();
+          })
+          .sort((a, b) => (a.isPin === b.isPin ? 0 : a.isPin ? -1 : 1));
 
         seIssues(sortedIssues);
       });
