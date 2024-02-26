@@ -6,7 +6,8 @@ import { Home } from "./features/home";
 import { Room } from "./features/room";
 import reportWebVitals from "./reportWebVitals";
 import * as serviceWorker from "./serviceWorker";
-import { ChakraProvider, theme } from "@chakra-ui/react";
+import { ChakraProvider } from "@chakra-ui/react";
+import theme from "./theme";
 
 const container = document.getElementById("root");
 if (!container) throw new Error("Failed to find the root element");

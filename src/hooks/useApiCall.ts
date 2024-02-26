@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { Issue } from "../models/issue.model";
 import { Participant } from "../models/participant.model";
 import { Room } from "../models/room.model";
 import {
@@ -10,6 +11,10 @@ import {
   observeRoom,
   clearPreviousSelectedPoint,
   removeParticipantFromRoom,
+  addIssueToRoom,
+  observeIssues,
+  removeIssueFromRoom,
+  updateIssueInRoom,
 } from "../services/firebase";
 import { addParticpantToRoom } from "../services/firebase";
 import { generateUUID } from "../utils/uuid";
@@ -53,6 +58,58 @@ export const useRemoveParticipantFromRoom = (): {
   };
 
   return { removeParticipant };
+};
+
+export const useAddIssueToRoom = (): {
+  addIssue: (roomId: string, issueTitle: string) => Promise<string>;
+} => {
+  const addIssue = async (
+    roomId: string,
+    issueTitle: string
+  ): Promise<string> => {
+    const id = generateUUID();
+    await addIssueToRoom(roomId, issueTitle, id);
+    return id;
+  };
+
+  return { addIssue };
+};
+
+export const useUpdateIssueInRoom = (): {
+  updateIssue: (
+    roomId: string,
+    issueId: string,
+    isPin?: boolean,
+    isLock?: boolean,
+    point?: string
+  ) => Promise<string>;
+} => {
+  const updateIssue = async (
+    roomId: string,
+    issueId: string,
+    isPin?: boolean,
+    isLock?: boolean,
+    point?: string
+  ): Promise<string> => {
+    await updateIssueInRoom(roomId, issueId, isPin, isLock, point);
+    return issueId;
+  };
+
+  return { updateIssue };
+};
+
+export const useRemoveIssueFromRoom = (): {
+  removeIssue: (roomId: string, issueId: string) => Promise<string>;
+} => {
+  const removeIssue = async (
+    roomId: string,
+    issueId: string
+  ): Promise<string> => {
+    await removeIssueFromRoom(roomId, issueId);
+    return issueId;
+  };
+
+  return { removeIssue };
 };
 
 export const useVote = (): {
@@ -154,4 +211,27 @@ export const useObserveParticipants = (roomId: string): Participant[] => {
   }, [roomId]);
 
   return participants;
+};
+
+export const useObserveIssues = (roomId: string): Issue[] => {
+  const [issues, seIssues] = useState<Issue[]>([]);
+  const isInitialRender = useRef(false);
+
+  useEffect(() => {
+    const execute = async () => {
+      isInitialRender.current = true;
+
+      await observeIssues(roomId, (response) => {
+        const sortedIssues = response.sort((a, b) => (a.isPin === b.isPin) ? 0 : a.isPin ? -1 : 1);
+
+        seIssues(sortedIssues);
+      });
+    };
+
+    if (!isInitialRender.current) {
+      execute();
+    }
+  }, [roomId]);
+
+  return issues;
 };

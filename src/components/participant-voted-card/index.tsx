@@ -131,7 +131,7 @@ export const ParticipantVotedCard = ({
               </Fade>
             )}
           </Box>
-          <Flex direction="row" align="center" mt={4}>
+          <Flex direction="row" align="center">
             {role === RoomRole.HOST && <TiHome />}
             {isOwner ? (
               <Heading

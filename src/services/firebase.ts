@@ -1,4 +1,5 @@
 import * as firebase from "firebase/app";
+import * as firestoreUtils from "firebase/firestore";
 import {
   getFirestore,
   doc,
@@ -13,8 +14,10 @@ import {
 } from "firebase/firestore";
 import { firebaseConfig } from "../config/firebase";
 import { RoomRole } from "../models/enum";
+import { Issue } from "../models/issue.model";
 import { Participant } from "../models/participant.model";
 import { Room } from "../models/room.model";
+import { removeUndefined } from "../utils/object";
 
 const app = firebase.initializeApp(firebaseConfig);
 const firestore = getFirestore(app);
@@ -35,7 +38,7 @@ export const addParticpantToRoom = async (
 ) => {
   const participants = collection(firestore, `rooms/${roomId}/participants`);
   const snapshot = getCountFromServer(participants);
-  
+
   const count = (await snapshot).data().count;
 
   const ref = doc(firestore, `rooms/${roomId}/participants/${participantId}`);
@@ -52,6 +55,42 @@ export const removeParticipantFromRoom = async (
   participantId: string
 ) => {
   const ref = doc(firestore, `rooms/${roomId}/participants/${participantId}`);
+  return deleteDoc(ref);
+};
+
+export const addIssueToRoom = async (
+  roomId: string,
+  issueTitle: string,
+  issueId: string
+) => {
+  const ref = doc(firestore, `rooms/${roomId}/issues/${issueId}`);
+  return setDoc(ref, {
+    issueTitle,
+    issueId,
+    createdAt: firestoreUtils.Timestamp.fromDate(new Date()),
+  });
+};
+
+export const updateIssueInRoom = async (
+  roomId: string,
+  issueId: string,
+  isPin?: boolean,
+  isLock?: boolean,
+  point?: string
+) => {
+  const ref = doc(firestore, `rooms/${roomId}/issues/${issueId}`);
+
+  const payload = removeUndefined({
+    isPin,
+    isLock,
+    point,
+  });
+
+  return updateDoc(ref, payload);
+};
+
+export const removeIssueFromRoom = async (roomId: string, issueId: string) => {
+  const ref = doc(firestore, `rooms/${roomId}/issues/${issueId}`);
   return deleteDoc(ref);
 };
 
@@ -129,6 +168,28 @@ export const observeParticipants = (
       };
     });
     onUpdated(participants);
+  });
+};
+
+export const observeIssues = (
+  roomId: string,
+  onUpdated: (issues: Issue[]) => void
+) => {
+  const ref = collection(firestore, `rooms/${roomId}/issues`);
+  onSnapshot(ref, (snapshot) => {
+    const issues = snapshot.docs.map((doc) => {
+      const { issueId, issueTitle, point, isLock, isPin, createdAt } =
+        doc.data();
+      return {
+        issueId,
+        issueTitle,
+        point,
+        isPin,
+        isLock,
+        createdAt,
+      };
+    });
+    onUpdated(issues);
   });
 };
 export default app;
