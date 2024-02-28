@@ -33,7 +33,7 @@ export const Room = () => {
   const { sendEmoji } = useSendEmoji();
 
   const { getSavedSession } = useCookie();
-  const { savedParticipantId, savedRoomId } = getSavedSession();
+  const { savedParticipantId, savedRoomId } = getSavedSession(roomId);
   const [isLargerThan800] = useMediaQuery('(min-width: 800px)')
 
   useEffect(() => {

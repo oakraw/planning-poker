@@ -87,7 +87,7 @@ export const RoomPokerTable = ({ room, participantId }: Props) => {
 
     return (
       <VStack spacing={8} justifyContent="center">
-        <HStack spacing={8}>
+        <HStack spacing={8} alignSelf="center">
           {topSeat.map((participant, index) => (
             <ParticipantVotedCard
               key={index}
